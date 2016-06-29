@@ -24,6 +24,7 @@ namespace BullChatPrototype
             Console.WriteLine("BullChatServer started. Listening on " + 2345);
 
             server.onReceive += new ServerReceiveHandler(Received);
+            server.onDisconnect += new ServerDisconnectHandler(Disconnected);
         }
 
         public void SetName(String name)
@@ -56,6 +57,14 @@ namespace BullChatPrototype
                     Console.WriteLine(Chat.Name + " => " + user.Name + ": " + message);
                     break;
                 }
+            }
+        }
+
+        public void Disconnected(TcpClient tcpClient)
+        {
+            if (users.ContainsKey(tcpClient.Client.GetHashCode()))
+            {
+                users.Remove(tcpClient.Client.GetHashCode());
             }
         }
 

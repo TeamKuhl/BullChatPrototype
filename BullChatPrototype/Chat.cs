@@ -30,6 +30,10 @@ namespace BullChatPrototype
         public void SetName(String name)
         {
             Chat.Name = name;
+            foreach (var item in this.users)
+            {
+                item.Value.SendName();
+            }
         }
 
         public void Connect(String ip)

@@ -77,7 +77,7 @@ namespace BullChatPrototype
         public void Connected()
         {
             this.Status = Status.Connected;
-            this.outgoing.send("hello", Chat.Name);
+            SendName();
             Console.WriteLine("Done! Connection to " + this.Ip + " initialized!");
         }
 
@@ -98,6 +98,11 @@ namespace BullChatPrototype
         public void Send(String message)
         {
             this.outgoing.send("message", message);
+        }
+
+        public void SendName()
+        {
+            this.outgoing.send("hello", Chat.Name);
         }
     }
 }

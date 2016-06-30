@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,9 @@ namespace BullChatPrototype
                         string msg = string.Join(" ", newParts);
                         chat.Message(parts[1], msg);
                         lastName = parts[1];
+                        break;
+                    case "/exit":
+                        Environment.Exit(0);
                         break;
                     default:
                         chat.Message(lastName, text);

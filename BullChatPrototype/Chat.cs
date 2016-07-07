@@ -77,9 +77,10 @@ namespace BullChatPrototype
             switch (type)
             {
                 case "init":
+                    User user = null;
                     if (pending.ContainsKey(message))
                     {
-                        User user = pending[message];
+                        user = pending[message];
                         user.ClientConnected();
                         pending.Remove(message);
                         users.Add(tcpClient.Client.GetHashCode(), user);
@@ -87,9 +88,39 @@ namespace BullChatPrototype
                     else
                     {
                         String ip = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
-                        User user = new User(message, ip);
+                        user = new User(message, ip);
                         user.ClientConnected();
                         users.Add(tcpClient.Client.GetHashCode(), user);
+                    }
+
+                    // contacts
+                    foreach (var item in users)
+                    {
+                        user.SendContact(item.Value);
+                        item.Value.SendContact(user);
+                    }
+                    break;
+                case "contact":
+                    bool found = false;
+                    foreach (var item in pending)
+                    {
+                        if (item.Value.Ip == message)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    foreach (var item in users)
+                    {
+                        if (item.Value.Ip == message)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        Connect(message);
                     }
                     break;
                 default:

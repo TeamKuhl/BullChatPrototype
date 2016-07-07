@@ -104,5 +104,10 @@ namespace BullChatPrototype
         {
             this.outgoing.send("hello", Chat.Name);
         }
+
+        public void SendContact(User user)
+        {
+            this.outgoing.send("contact", user.Ip);
+        }
     }
 }
